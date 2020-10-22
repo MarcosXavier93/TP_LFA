@@ -71,9 +71,10 @@ while True:
         def calculo(alfabeto_entrada,alf_transicao):
             if alfabeto_entrada in alf_transicao[1]:
                 if alf_transicao[2] != '#':
-                    pilha.remove(alf_transicao[2])
+                    pilha.pop() #desempilha quem está no topo da pilha
                 if alf_transicao[4] != '#':
                     str = list(alf_transicao[4])
+                    str.reverse() #inverte lista para empilhar da direita para esquerda
                     for i in str:
                         pilha.append(i)
 
