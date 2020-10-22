@@ -1,12 +1,12 @@
 import json
 import sys
 import os
-import keyword
-from pynput.keyboard import Key, Controller
+#import keyword
+#from pynput.keyboard import Key, Controller
 
-keyboard = Controller()
-x = 0;
-while (x != 1):
+#keyboard = Controller()
+#x = 0;
+while True:
     
     try:
         estado = [] #lista de estados
@@ -52,7 +52,7 @@ while (x != 1):
                 print('Não')
 
 
-        def teclado():#Recebe A Entrada vindo do TEclado como :00,01, 00011 ,etc
+        def teclado():#Recebe A Entrada vindo do teclado como :00,01, 00011 ,etc
             entrada = list(input())
             return entrada
 
@@ -109,5 +109,5 @@ while (x != 1):
             start()
         else:
             print('Arquivo não encontrado')
-    except EOFError:
+    except (EOFError, KeyboardInterrupt) as e:
         sys.exit(0)

@@ -3,8 +3,8 @@
  ["0", "1"],
  ["Z", "U", "F"],
  [
- ["i", "0", "#", "d", "ZF"],//estado i lendo  0 desempilha # empilha ZF e vai pra d (precisa verificar o topo da pilha toda ve)
- ["i", "1", "#", "d", "UF"],//
+ ["i", "0", "#", "d", "ZF"],
+ ["i", "1", "#", "d", "UF"],
  ["d", "0", "Z", "d", "ZZ"],
  ["d", "0", "U", "d", "#"],
  ["d", "1", "U", "d", "UU"],
