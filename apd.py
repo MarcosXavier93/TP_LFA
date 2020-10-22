@@ -39,7 +39,7 @@ while True:
 
             #print(estado)
             #print(simbolo)
-            print(alfa_pilha)
+            #print(alfa_pilha)
             #print(transicao)
             #print(inicial)
             #print(final)
@@ -69,21 +69,20 @@ while True:
                 return False
 
         def calculo(alfabeto_entrada,alf_transicao):
-            if alfabeto_entrada in alf_transicao[1]:
-                if alf_transicao[2] != '#':
-                    pilha.pop() #desempilha quem está no topo da pilha
-                if alf_transicao[4] != '#':
-                    str = list(alf_transicao[4])
-                    str.reverse() #inverte lista para empilhar da direita para esquerda
-                    for i in str:
-                        pilha.append(i)
+            if alf_transicao[2] != '#':
+                pilha.pop() #desempilha quem está no topo da pilha
+            if alf_transicao[4] != '#':
+                str = list(alf_transicao[4])
+                str.reverse() #inverte lista para empilhar da direita para esquerda
+                for i in str:
+                    pilha.append(i)
 
         def transicoes(alfabeto_entrada,alf_transicao):
             global atual
             alfabeto_entrada.append('#')
             for j in alfabeto_entrada:
                 for i in alf_transicao:
-                    if checkPilha():
+                    if checkPilha(): #se pilha estiver vazia
                         if j in i[1] and atual in i[0]:
                             #print(i)
                             calculo(j,i)
@@ -91,7 +90,7 @@ while True:
                             print(pilha)
                             break
                     else:
-                        if j in i[1] and atual in i[0] and pilha[0] in i[2]:
+                        if j in i[1] and atual in i[0] and pilha[-1] in i[2]: #pilha não está vazia e topo da pilha existe na transição para desempilhar
                             #print(i)
                             calculo(j,i)
                             atual=i[3]
