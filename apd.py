@@ -7,9 +7,6 @@ from pynput.keyboard import Key, Controller
 keyboard = Controller()
 x = 0;
 while (x != 1):
-    if (keyboard.press(Key.ctrl)
-        if (keyboard.press('d')
-            x=1
     
     try:
         estado = [] #lista de estados
@@ -23,9 +20,12 @@ while (x != 1):
 
         def start():
             #separando informações do .json
-            estado=data['ap'][0]
-            simbolo=data['ap'][1]
-            alfa_pilha=data['ap'][2]
+            estado = data['ap'][0]
+            
+            simbolo = data['ap'][1]
+            
+            alfa_pilha = data['ap'][2]
+            
             transicao=data['ap'][3]
             inicial=data['ap'][4]
             final=data['ap'][5]
@@ -34,10 +34,12 @@ while (x != 1):
 
             if '#' not in simbolo: #add lambda ao alfabeto de simbolos
                 simbolo.append('#')
+            if '#' not in alfa_pilha: #add lambda ao topo da pilha
+                alfa_pilha.append('#')    
 
             #print(estado)
             #print(simbolo)
-            #print(alfa_pilha)
+            print(alfa_pilha)
             #print(transicao)
             #print(inicial)
             #print(final)
@@ -50,11 +52,11 @@ while (x != 1):
                 print('Não')
 
 
-        def teclado():
+        def teclado():#Recebe A Entrada vindo do TEclado como :00,01, 00011 ,etc
             entrada = list(input())
             return entrada
 
-        def checkAlfabeto(alfabeto_entrada,alfabeto_simbolo):
+        def checkAlfabeto(alfabeto_entrada,alfabeto_simbolo):#Verifica se o que foi digitado pertence ao alfabeto
             for i in alfabeto_entrada:
                 if i not in alfabeto_simbolo:
                     return False
@@ -85,14 +87,14 @@ while (x != 1):
                             #print(i)
                             calculo(j,i)
                             atual=i[3]
-                            #print(pilha)
+                            print(pilha)
                             break
                     else:
                         if j in i[1] and atual in i[0] and pilha[0] in i[2]:
                             #print(i)
                             calculo(j,i)
                             atual=i[3]
-                            #print(pilha)
+                            print(pilha)
                             break
             if checkPilha():
                 print('Sim')
