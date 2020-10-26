@@ -80,7 +80,10 @@ while True:
             pilha.append('#')  #Pilha Comeca Vazia,# significa vazio 
             print('Mostrando a pilha',pilha)
             for j in alfabeto_entrada:
+                if j == '#':#Caso digite # pula para o proximo caracter
+                    break
                 for i in alf_transicao:
+
                        if j in i[1] and atual in i[0] and pilha[-1] in i[2]: #pilha não está vazia e topo da pilha existe na transição para desempilhar
                             #print(i)
                             calculo(j,i)
