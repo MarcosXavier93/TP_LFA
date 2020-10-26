@@ -3,9 +3,6 @@ import sys
 import os
 #import keyword
 #from pynput.keyboard import Key, Controller
-
-#keyboard = Controller()
-#x = 0;
 while True:
     
     try:
@@ -27,15 +24,15 @@ while True:
             alfa_pilha = data['ap'][2]
             
             transicao=data['ap'][3]
-            inicial=data['ap'][4]
+            inicial = data['ap'][4]
             final=data['ap'][5]
             global atual
             atual=inicial
 
             if '#' not in simbolo: #add lambda ao alfabeto de simbolos
                 simbolo.append('#')
-            if '#' not in alfa_pilha: #add lambda ao topo da pilha
-                alfa_pilha.append('#')    
+            #if '#' not in alfa_pilha: #add lambda ao topo da pilha
+                #alfa_pilha.append('#')    
 
             #print(estado)
             #print(simbolo)
@@ -63,38 +60,31 @@ while True:
             return True
 
         def checkPilha():
-            if len(pilha) == 0:
+            if len(pilha) == 1:
                 return True
             else:
                 return False
 
-        def calculo(alfabeto_entrada,alf_transicao):
-            if alf_transicao[2] != '#':
-                pilha.pop() #desempilha quem está no topo da pilha
+        def calculo(alfabeto_entrada, alf_transicao):
+            print('Pilha antes das operacoes',pilha)
+            pilha.pop() #desempilha quem está no topo da pilha
             if alf_transicao[4] != '#':
                 str = list(alf_transicao[4])
                 str.reverse() #inverte lista para empilhar da direita para esquerda
                 for i in str:
                     pilha.append(i)
-
+            print('Pilha depois das operacoes',pilha)
         def transicoes(alfabeto_entrada,alf_transicao):
             global atual
-            alfabeto_entrada.append('#')
+           #alfabeto_entrada.append('#')
+            pilha.append('#')  #Pilha Comeca Vazia,# significa vazio 
+            print('Mostrando a pilha',pilha)
             for j in alfabeto_entrada:
                 for i in alf_transicao:
-                    if checkPilha(): #se pilha estiver vazia
-                        if j in i[1] and atual in i[0]:
+                       if j in i[1] and atual in i[0] and pilha[-1] in i[2]: #pilha não está vazia e topo da pilha existe na transição para desempilhar
                             #print(i)
                             calculo(j,i)
                             atual=i[3]
-                            print(pilha)
-                            break
-                    else:
-                        if j in i[1] and atual in i[0] and pilha[-1] in i[2]: #pilha não está vazia e topo da pilha existe na transição para desempilhar
-                            #print(i)
-                            calculo(j,i)
-                            atual=i[3]
-                            print(pilha)
                             break
             if checkPilha():
                 print('Sim')
