@@ -26,8 +26,9 @@ while True:
             transicao=data['ap'][3]
             inicial = data['ap'][4]
             final=data['ap'][5]
-            global atual
+            global atual, fim
             atual=inicial
+            fim = final
 
             if '#' not in simbolo: #add lambda ao alfabeto de simbolos
                 simbolo.append('#')
@@ -68,7 +69,12 @@ while True:
 
         def calculo(alfabeto_entrada, alf_transicao):
             #print('Pilha antes das operacoes',pilha)
-            pilha.pop() #desempilha quem está no topo da pilha
+            try:
+                pilha.remove('#') #remover # adicionado anteriormente
+            except:
+                pass
+            if alf_transicao[2] != '#': #para evitar desempilhar quando não precisa desempilhar
+                pilha.pop() #desempilha quem está no topo da pilha
             if alf_transicao[4] != '#':
                 str = list(alf_transicao[4])
                 str.reverse() #inverte lista para empilhar da direita para esquerda
@@ -76,8 +82,8 @@ while True:
                     pilha.append(i)
             #print('Pilha depois das operacoes',pilha)
         def transicoes(alfabeto_entrada,alf_transicao):
-            global atual
-           
+            global atual, fim
+            contador=0
             #alfabeto_entrada.append('#')
             pilha.append('#')  #Pilha Comeca Vazia,# significa vazio 
             #print('Mostrando a pilha',pilha)
@@ -85,28 +91,38 @@ while True:
                 #if j == '#':#Caso digite # pula para o proximo caracter
                 #    break
                 for i in alf_transicao:
-                    if j in i[1] and atual in i[0] and pilha[-1] in i[2]: # pilha não está vazia e topo da pilha existe na transição para desempilhar
-                        #print("A")
+                    #print(j, atual, pilha[-1])
+                    if (j in i[1] and atual in i[0] and pilha[-1] in i[2]) or (j in i[1] and atual in i[0] and '#' in i[2]): #topo da pilha existe na transição para desempilhar
                         calculo(j,i)
                         atual=i[3]
+                        if len(pilha)==0: #pilha vazia coloca lambda pra marcar
+                            pilha.append('#')
                         break
+                    else:
+                        contador=contador+1
+                if contador == len(alf_transicao): #não existe transição para o simbolo
+                    pilha.append('#') #so para pilhar ter tamanho >1
+                    break;
+                else:
+                    contador = 0
                 if len(pilha) == 1 and pilha[-1] == 'F': #SE TIVER 1 SO ELEMENTO na pilha e ele for F
                     save = j
                     j = '#'
                     for i in alf_transicao:
-                        if j in i[1] and atual in i[0] and pilha[-1] in i[2]:  # pilha não está vazia e topo da pilha existe na transição para desempilhar
-                            #print("B")
+                        if j in i[1] and atual in i[0] and pilha[-1] in i[2]:  #a pilha não está vazia e topo da pilha existe na transição para desempilhar
                             calculo(j, i)
                             atual = i[3]
                             break
                     j=save
-                    pilha.append('#')
-            if checkPilha():
+                    pilha.append('#') #marcar que a pilha esta vazia
+            if checkPilha(): #confere se pilha esta vazia e se estado atual existe como estado final
                 print('Sim')
                 #print("Pilha final: ",pilha)
+                #print("estado: ", atual)
             else:
                 print('Não')
                 #print("Pilha final: ",pilha)
+                #print("estado: ", atual)
 
         path = sys.argv[1]
         if os.path.exists(path):
