@@ -50,7 +50,8 @@ while True:
 
 
         def teclado():#Recebe A Entrada vindo do teclado como: 00,01, 00011 ,etc
-            entrada = list(input())
+            entrada = (input())
+            entrada = entrada.replace("#", "")
             return entrada
 
         def checkAlfabeto(alfabeto_entrada,alfabeto_simbolo):#Verifica se o que foi digitado pertence ao alfabeto
@@ -66,25 +67,26 @@ while True:
                 return False
 
         def calculo(alfabeto_entrada, alf_transicao):
-            print('Pilha antes das operacoes',pilha)
+            #print('Pilha antes das operacoes',pilha)
             pilha.pop() #desempilha quem está no topo da pilha
             if alf_transicao[4] != '#':
                 str = list(alf_transicao[4])
                 str.reverse() #inverte lista para empilhar da direita para esquerda
                 for i in str:
                     pilha.append(i)
-            print('Pilha depois das operacoes',pilha)
+            #print('Pilha depois das operacoes',pilha)
         def transicoes(alfabeto_entrada,alf_transicao):
             global atual
-            alfabeto_entrada.remove('#')
-            pilha.append('#')  #Pilha Comeca Vazia,# significa vazio
-            print('Mostrando a pilha',pilha)
+           
+            #alfabeto_entrada.append('#')
+            pilha.append('#')  #Pilha Comeca Vazia,# significa vazio 
+            #print('Mostrando a pilha',pilha)
             for j in alfabeto_entrada:
                 #if j == '#':#Caso digite # pula para o proximo caracter
                 #    break
                 for i in alf_transicao:
                     if j in i[1] and atual in i[0] and pilha[-1] in i[2]: # pilha não está vazia e topo da pilha existe na transição para desempilhar
-                        print("A")
+                        #print("A")
                         calculo(j,i)
                         atual=i[3]
                         break
@@ -93,7 +95,7 @@ while True:
                     j = '#'
                     for i in alf_transicao:
                         if j in i[1] and atual in i[0] and pilha[-1] in i[2]:  # pilha não está vazia e topo da pilha existe na transição para desempilhar
-                            print("B")
+                            #print("B")
                             calculo(j, i)
                             atual = i[3]
                             break
@@ -101,10 +103,10 @@ while True:
                     pilha.append('#')
             if checkPilha():
                 print('Sim')
-                print("Pilha final: ",pilha)
+                #print("Pilha final: ",pilha)
             else:
                 print('Não')
-                print("Pilha final: ",pilha)
+                #print("Pilha final: ",pilha)
 
         path = sys.argv[1]
         if os.path.exists(path):
