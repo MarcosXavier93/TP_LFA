@@ -77,8 +77,7 @@ while True:
         def transicoes(alfabeto_entrada,alf_transicao):
             global atual
             alfabeto_entrada.remove('#')
-            #alfabeto_entrada.append('#')
-            pilha.append('#')  #Pilha Comeca Vazia,# significa vazio 
+            pilha.append('#')  #Pilha Comeca Vazia,# significa vazio
             print('Mostrando a pilha',pilha)
             for j in alfabeto_entrada:
                 #if j == '#':#Caso digite # pula para o proximo caracter
