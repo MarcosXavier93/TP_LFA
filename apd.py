@@ -76,6 +76,7 @@ while True:
             print('Pilha depois das operacoes',pilha)
         def transicoes(alfabeto_entrada,alf_transicao):
             global atual
+            alfabeto_entrada.remove('#')
             #alfabeto_entrada.append('#')
             pilha.append('#')  #Pilha Comeca Vazia,# significa vazio 
             print('Mostrando a pilha',pilha)
