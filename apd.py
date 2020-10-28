@@ -49,7 +49,7 @@ while True:
                 print('Não')
 
 
-        def teclado():#Recebe A Entrada vindo do teclado como :00,01, 00011 ,etc
+        def teclado():#Recebe A Entrada vindo do teclado como: 00,01, 00011 ,etc
             entrada = list(input())
             return entrada
 
@@ -60,7 +60,7 @@ while True:
             return True
 
         def checkPilha():
-            if len(pilha) == 1:
+            if len(pilha) == 1 and pilha[-1] == '#':
                 return True
             else:
                 return False
@@ -76,23 +76,35 @@ while True:
             print('Pilha depois das operacoes',pilha)
         def transicoes(alfabeto_entrada,alf_transicao):
             global atual
-           #alfabeto_entrada.append('#')
+            #alfabeto_entrada.append('#')
             pilha.append('#')  #Pilha Comeca Vazia,# significa vazio 
             print('Mostrando a pilha',pilha)
             for j in alfabeto_entrada:
-                if j == '#':#Caso digite # pula para o proximo caracter
-                    break
+                #if j == '#':#Caso digite # pula para o proximo caracter
+                #    break
                 for i in alf_transicao:
-
-                       if j in i[1] and atual in i[0] and pilha[-1] in i[2]: #pilha não está vazia e topo da pilha existe na transição para desempilhar
-                            #print(i)
-                            calculo(j,i)
-                            atual=i[3]
+                    if j in i[1] and atual in i[0] and pilha[-1] in i[2]: # pilha não está vazia e topo da pilha existe na transição para desempilhar
+                        print("A")
+                        calculo(j,i)
+                        atual=i[3]
+                        break
+                if len(pilha) == 1 and pilha[-1] == 'F': #SE TIVER 1 SO ELEMENTO na pilha e ele for F
+                    save = j
+                    j = '#'
+                    for i in alf_transicao:
+                        if j in i[1] and atual in i[0] and pilha[-1] in i[2]:  # pilha não está vazia e topo da pilha existe na transição para desempilhar
+                            print("B")
+                            calculo(j, i)
+                            atual = i[3]
                             break
+                    j=save
+                    pilha.append('#')
             if checkPilha():
                 print('Sim')
+                print("Pilha final: ",pilha)
             else:
                 print('Não')
+                print("Pilha final: ",pilha)
 
         path = sys.argv[1]
         if os.path.exists(path):
