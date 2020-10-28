@@ -105,7 +105,7 @@ while True:
                     break;
                 else:
                     contador = 0
-                if len(pilha) == 1 and pilha[-1] == 'F': #SE TIVER 1 SO ELEMENTO na pilha e ele for F
+                if len(pilha) == 1 and pilha[-1] == 'F': #SE TIVER 1 SO ELEMENTO na pilha e ele for F (FUNDO)
                     save = j
                     j = '#'
                     for i in alf_transicao:
@@ -115,7 +115,7 @@ while True:
                             break
                     j=save
                     pilha.append('#') #marcar que a pilha esta vazia
-            if checkPilha(): #confere se pilha esta vazia e se estado atual existe como estado final
+            if checkPilha() and atual in fim: #confere se pilha esta vazia e se estado atual existe como estado final
                 print('Sim')
                 #print("Pilha final: ",pilha)
                 #print("estado: ", atual)
