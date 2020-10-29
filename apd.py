@@ -90,7 +90,7 @@ while True:
 
         def transicoes(alfabeto_entrada, alf_transicao):
             global atual, fim
-            count=0
+       
             contador = 0
             # alfabeto_entrada.append('#')
             pilha.append('#')  # Pilha Comeca Vazia,# significa vazio
@@ -101,8 +101,7 @@ while True:
                 for i in alf_transicao:
                     # print(j, atual, pilha[-1])
                     if (j in i[1] and atual in i[0] and pilha[-1] in i[2]) or (j in i[1] and atual in i[0] and '#' in i[2]):  # topo da pilha existe na transição para desempilhar
-                        if i[2] != 'F':
-                            count=count+1
+                       
                         calculo(j, i)
                         atual = i[3]
                         if len(pilha) == 0:  # pilha vazia coloca lambda pra marcar
@@ -120,14 +119,13 @@ while True:
                     j = '#'
                     for i in alf_transicao:
                         if j in i[1] and atual in i[0] and pilha[-1] in i[2]:  # a pilha não está vazia e topo da pilha existe na transição para desempilhar
-                            if i[2] != 'F':
-                                count=count+1
+                            
                             calculo(j, i)
                             atual = i[3]
                             break
                     j = save
                     pilha.append('#')  # marcar que a pilha esta vazia
-            if  atual in fim and count ==len(alfabeto_entrada):  # confere se pilha esta vazia e se estado atual existe como estado final
+            if  atual in fim :  # confere se pilha esta vazia e se estado atual existe como estado final
                 print('Sim')
                 # print("Pilha final: ",pilha)
                 # print("estado: ", atual)
