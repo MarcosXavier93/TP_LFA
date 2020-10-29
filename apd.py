@@ -127,10 +127,12 @@ while True:
                     pilha.append('#')  # marcar que a pilha esta vazia
             if  atual in fim :  # confere se pilha esta vazia e se estado atual existe como estado final
                 print('Sim')
+                #print('atual',atual)
                 # print("Pilha final: ",pilha)
                 # print("estado: ", atual)
             else:
                 print('Não')
+                #print('atual',atual)
                 # print("Pilha final: ",pilha)
                 # print("estado: ", atual)
 
