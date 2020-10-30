@@ -26,6 +26,7 @@ while True:
             alfa_pilha = data['ap'][2]
 
             transicao = data['ap'][3]
+            simbolo_inicial=data['ap'][3][0][2]
             inicial = data['ap'][4]
             final = data['ap'][5]
             global atual, fim
@@ -47,7 +48,7 @@ while True:
             entrada = teclado()  # entradas teclado
 
             if checkAlfabeto(entrada, simbolo):
-                transicoes(entrada, transicao)
+                transicoes(entrada, transicao,simbolo_inicial)
             else:
                 print('Não')
 
@@ -104,7 +105,7 @@ while True:
             for i in alf_transicao:  # percorrer transicoes
                 if (atual in i[0] and simbolo_atual in i[1]):  # se encontrar transicao em que estado atual e simbolo atual estão presentes
                     transicoes_encontrada = transicoes_encontrada+[i]  # guardar essa transicao
-            print('Encontrou: ',transicoes_encontrada)
+            #print('Encontrou: ',transicoes_encontrada)
             print(len(transicoes_encontrada))
             if (len(transicoes_encontrada) > 1):  # se tiver mais de uma transicao com estado atual e simbolo atual presente
                 transicoes_encontrada = passo2(transicoes_encontrada)
@@ -118,18 +119,18 @@ while True:
                 simbolo_atual = '#'
                 flag = False #marcar que já tentou de tudo para achar
                 transicoes_encontrada=passo1(simbolo_atual,alf_transicao,transicoes_encontrada)
-            print('Escolhida: ', transicoes_encontrada)
+            #print('Escolhida: ', transicoes_encontrada)
             return transicoes_encontrada
 
-        def transicoes(alfabeto_entrada, alf_transicao):
+        def transicoes(alfabeto_entrada, alf_transicao,simbolo_inicial):
             global atual, fim, flag, pilha, resultado
             flag = True
             resultado = False
             transicoes_encontrada=[]
             j = 0
             while j < len(alfabeto_entrada):
-                print('pilha: ',pilha)
-                print('j:',alfabeto_entrada[j])
+                #print('pilha: ',pilha)
+                #print('j:',alfabeto_entrada[j])
                 transicoes_encontrada=procuraTransicao(alfabeto_entrada[j],alf_transicao, transicoes_encontrada)
                 if(len(transicoes_encontrada)>0):
                     if(transicoes_encontrada[0][2] != '#' and checkPilha()):

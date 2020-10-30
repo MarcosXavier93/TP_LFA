@@ -26,6 +26,7 @@ while True:
             alfa_pilha = data['ap'][2]
 
             transicao = data['ap'][3]
+            simbolo_inicial=data['ap'][3][0][2]
             inicial = data['ap'][4]
             final = data['ap'][5]
             global atual, fim
@@ -47,7 +48,7 @@ while True:
             entrada = teclado()  # entradas teclado
 
             if checkAlfabeto(entrada, simbolo):
-                transicoes(entrada, transicao)
+                transicoes(entrada, transicao,simbolo_inicial)
             else:
                 print('Não')
 
@@ -88,12 +89,12 @@ while True:
             # print('Pilha depois das operacoes',pilha)
 
 
-        def transicoes(alfabeto_entrada, alf_transicao):
+        def transicoes(alfabeto_entrada, alf_transicao,simbolo_inicial):
             global atual, fim
        
             contador = 0
             # alfabeto_entrada.append('#')
-            pilha.append('#')  # Pilha Comeca Vazia,# significa vazio
+            pilha.append(simbolo_inicial)  # Pilha Comeca Vazia,# significa vazio
             # print('Mostrando a pilha',pilha)
             for j in alfabeto_entrada:
                 # if j == '#':#Caso digite # pula para o proximo caracter
@@ -132,8 +133,8 @@ while True:
                 # print("estado: ", atual)
             else:
                 print('Não')
-                #print('atual',atual)
-                # print("Pilha final: ",pilha)
+                print('atual',atual)
+                print("Pilha final: ",pilha)
                 # print("estado: ", atual)
 
         path = sys.argv[1]
