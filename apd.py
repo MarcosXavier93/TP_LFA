@@ -26,7 +26,8 @@ while True:
             alfa_pilha = data['ap'][2]
 
             transicao = data['ap'][3]
-            simbolo_inicial=data['ap'][3][0][2]
+            simbolo_inicial = data['ap'][3][0][2]
+            primeiro = data['ap'][3][0][1]
             inicial = data['ap'][4]
             final = data['ap'][5]
             global atual, fim
@@ -46,9 +47,9 @@ while True:
             # print(final)
 
             entrada = teclado()  # entradas teclado
-
+            tamanho = len(entrada)
             if checkAlfabeto(entrada, simbolo):
-                transicoes(entrada, transicao,simbolo_inicial)
+                transicoes(entrada, transicao,simbolo_inicial,primeiro,tamanho)
             else:
                 print('Não')
 
@@ -89,30 +90,32 @@ while True:
             # print('Pilha depois das operacoes',pilha)
 
 
-        def transicoes(alfabeto_entrada, alf_transicao,simbolo_inicial):
+        def transicoes(alfabeto_entrada, alf_transicao,simbolo_inicial,primeiro,tamanho):
             global atual, fim
        
             contador = 0
-            # alfabeto_entrada.append('#')
+            alfabeto_entrada+='#'
             pilha.append(simbolo_inicial)  # Pilha Comeca Vazia,# significa vazio
-            # print('Mostrando a pilha',pilha)
+            print('Mostrando a pilha', pilha)
+            
+            
             for j in alfabeto_entrada:
                 # if j == '#':#Caso digite # pula para o proximo caracter
                 #    break
                 for i in alf_transicao:
                     # print(j, atual, pilha[-1])
                     if (j in i[1] and atual in i[0] and pilha[-1] in i[2]) or (j in i[1] and atual in i[0] and '#' in i[2]):  # topo da pilha existe na transição para desempilhar
-                       
+                    
                         calculo(j, i)
                         atual = i[3]
                         if len(pilha) == 0:  # pilha vazia coloca lambda pra marcar
-                            pilha.append('#')
+                            pilha.append(simbolo_inicial)
                         break
                     else:
                         contador = contador + 1
-                if contador == len(alf_transicao):  # não existe transição para o simbolo
-                    pilha.append('#')  # so para pilhar ter tamanho >1
-                    break;
+                #if contador == len(alf_transicao):  # não existe transição para o simbolo
+                    #pilha.append('#')  # so para pilhar ter tamanho >1
+                    #break;
                 else:
                     contador = 0
                 if len(pilha) == 1 and pilha[-1] == 'F':  # SE TIVER 1 SO ELEMENTO na pilha e ele for F (FUNDO)
@@ -126,11 +129,13 @@ while True:
                             break
                     j = save
                     pilha.append('#')  # marcar que a pilha esta vazia
+                
+            
             if  atual in fim :  # confere se pilha esta vazia e se estado atual existe como estado final
                 print('Sim')
-                #print('atual',atual)
-                # print("Pilha final: ",pilha)
-                # print("estado: ", atual)
+                print('atual',atual)
+                print("Pilha final: ",pilha)
+                print("estado: ", atual)
             else:
                 print('Não')
                 print('atual',atual)
