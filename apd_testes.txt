@@ -28,7 +28,7 @@ Mesma quantidade de 0e1
  "i",
  ["i"]
 ]}
-0^m1^nt (m>n)
+0^m1^nt (m>=n)
 { "ap": [
  ["0", "1", "f"],
  ["0", "1", "t"],
