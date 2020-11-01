@@ -26,8 +26,7 @@ while True:
             alfa_pilha = data['ap'][2]
 
             transicao = data['ap'][3]
-            simbolo_inicial = data['ap'][3][0][2]
-            primeiro = data['ap'][3][0][1]
+            simbolo_inicial=data['ap'][3][0][2]
             inicial = data['ap'][4]
             final = data['ap'][5]
             global atual, fim
@@ -47,16 +46,17 @@ while True:
             # print(final)
 
             entrada = teclado()  # entradas teclado
-            tamanho = len(entrada)
+
             if checkAlfabeto(entrada, simbolo):
-                transicoes(entrada, transicao,simbolo_inicial,primeiro,tamanho)
+                transicoes(entrada, transicao,simbolo_inicial)
             else:
                 print('Não')
 
 
         def teclado():  # Recebe A Entrada vindo do teclado como: 00,01, 00011 ,etc
             entrada = (input())
-            entrada = entrada.replace("#", "")
+            entrada = entrada.replace("#", "") # lambda faz parte da palavra
+            entrada = entrada+'#'
             return entrada
 
 
@@ -68,15 +68,16 @@ while True:
 
 
         def checkPilha():
-            if len(pilha) == 1 and pilha[-1] == '#':
+            global pilha
+            if len(pilha) == 0:# and pilha[-1] == '#':
                 return True
             else:
                 return False
 
 
         def calculo(alfabeto_entrada, alf_transicao):
-            print('Pilha antes das operacoes',pilha)
-            print('entrada ',alfabeto_entrada)
+            global pilha
+            # print('Pilha antes das operacoes',pilha)
             try:
                 pilha.remove('#')  # remover # adicionado anteriormente
             except:
@@ -88,60 +89,94 @@ while True:
                 str.reverse()  # inverte lista para empilhar da direita para esquerda
                 for i in str:
                     pilha.append(i)
-            print('Pilha depois das operacoes',pilha)
+            # print('Pilha depois das operacoes',pilha)
 
+        def passo2(transicoes_encontrada):
+            global pilha
+            for i in transicoes_encontrada:
+                try:
+                    if (pilha[-1] in i[2] or i[2] == '#'):  # encontrar transicao que está desempilhando topo da pilha ou desempilhando nada
+                        transicoes_encontrada.clear()  # remove todas transicoes encontradas
+                        transicoes_encontrada = transicoes_encontrada + [i]  # adiciona transicao correta
+                except:
+                    pilha.append(i[2])
+                    if (pilha[-1] in i[2] or i[2] == '#'):  # encontrar transicao que está desempilhando topo da pilha ou desempilhando nada
+                        transicoes_encontrada.clear()  # remove todas transicoes encontradas
+                        transicoes_encontrada = transicoes_encontrada + [i]  # adiciona transicao correta
+            if (len(transicoes_encontrada) > 1):  # não escolheu nenhuma transição adequada das encontradas
+                transicoes_encontrada.clear()
+            return transicoes_encontrada
 
-        def transicoes(alfabeto_entrada, alf_transicao,simbolo_inicial,primeiro,tamanho):
-            global atual, fim
-       
-            contador = 0
-            alfabeto_entrada+='#'
-            pilha.append(simbolo_inicial)  # Pilha Comeca Vazia,# significa vazio
-            print('Mostrando a pilha', pilha)
-            
-            
-            for j in alfabeto_entrada:
-                # if j == '#':#Caso digite # pula para o proximo caracter
-                #    break
-                for i in alf_transicao:
-                    # print(j, atual, pilha[-1])
-                    if (j in i[1] and atual in i[0] and pilha[-1] in i[2]) or (j in i[1] and atual in i[0] and '#' in i[2]):  # topo da pilha existe na transição para desempilhar
-                    
-                        calculo(j, i)
-                        atual = i[3]
-                        if len(pilha) == 0:  # pilha vazia coloca lambda pra marcar
-                            pilha.append(simbolo_inicial)
+        def passo1(simbolo_atual,alf_transicao,transicoes_encontrada):
+            global atual
+            for i in alf_transicao:  # percorrer transicoes
+                if (atual in i[0] and simbolo_atual in i[1]):  # se encontrar transicao em que estado atual e simbolo atual estão presentes
+                    transicoes_encontrada = transicoes_encontrada+[i]  # guardar essa transicao
+            print('Encontrou: ',transicoes_encontrada)
+            print(len(transicoes_encontrada))
+            if (len(transicoes_encontrada) > 1):  # se tiver mais de uma transicao com estado atual e simbolo atual presente
+                transicoes_encontrada = passo2(transicoes_encontrada)
+            return transicoes_encontrada
+
+        def procuraTransicao(simbolo_atual, alf_transicao, transicoes_encontrada):
+            global atual, flag, pilha
+            transicoes_encontrada=passo1(simbolo_atual,alf_transicao,transicoes_encontrada)
+            if (len(transicoes_encontrada) == 0):  # nao foi encontrado transicoes
+                print('entrou')
+                simbolo_atual = '#'
+                flag = False #marcar que já tentou de tudo para achar
+                transicoes_encontrada=passo1(simbolo_atual,alf_transicao,transicoes_encontrada)
+            print('Escolhida: ', transicoes_encontrada)
+            return transicoes_encontrada
+
+        def transicoes(alfabeto_entrada, alf_transicao,simbolo_inicial):
+            global atual, fim, flag, pilha, resultado
+            flag = True
+            resultado = False
+            transicoes_encontrada=[]
+            j = 0
+            print('tamanho:',len(alfabeto_entrada))
+            while j < len(alfabeto_entrada):
+                print('pilha: ',pilha)
+                print('alfabeto entrada:',alfabeto_entrada[j])
+                print(j)
+                transicoes_encontrada=procuraTransicao(alfabeto_entrada[j],alf_transicao, transicoes_encontrada)
+                if(len(transicoes_encontrada)>0):
+                    if(transicoes_encontrada[0][2] != '#' and checkPilha() and transicoes_encontrada[0][1] != '#'):
+                        resultado=False
+                        break
+                    elif(transicoes_encontrada[0][1]=='#' and checkPilha() and transicoes_encontrada[0][2] != '#'): #lê nada, desempilha algo e pilha já está vazia
+                        resultado=True
+                        break
+                    elif(transicoes_encontrada[0][2] != '#' and not(transicoes_encontrada[0][2] in pilha[-1]) and transicoes_encontrada[0][1] != '#'):
+                        resultado = False
                         break
                     else:
-                        contador = contador + 1
-                if contador == len(alf_transicao):  # não existe transição para o simbolo
-                    pilha.append('#')  # so para pilhar ter tamanho >1
-                    break;
+                        calculo(alfabeto_entrada[j], transicoes_encontrada[0])
+                        atual = transicoes_encontrada[0][3]
+                        transicoes_encontrada.clear()
+                    if(j == (len(alfabeto_entrada)-1) and checkPilha() and atual in fim):
+                        resultado=True
+                        #print('Sim')
+                    else:
+                        resultado=False
+                    if flag:
+                        j=j+1
+                    else:
+                        flag=True
+                elif checkPilha() and atual in fim and not flag and alfabeto_entrada[j]=='#':
+                    resultado=True
+                    break
                 else:
-                    contador = 0
-                if len(pilha) == 1 and pilha[-1] == 'F':  # SE TIVER 1 SO ELEMENTO na pilha e ele for F (FUNDO)
-                    save = j
-                    j = '#'
-                    for i in alf_transicao:
-                        if j in i[1] and atual in i[0] and pilha[-1] in i[2]:  # a pilha não está vazia e topo da pilha existe na transição para desempilhar
-                            
-                            calculo(j, i)
-                            atual = i[3]
-                            break
-                    j = save
-                    pilha.append('#')  # marcar que a pilha esta vazia
-            
-            
-            if  atual in fim :  # confere se pilha esta vazia e se estado atual existe como estado final
+                    resultado=False
+                    break
+
+            if resultado:
                 print('Sim')
-                print('atual',atual)
-                print("Pilha final: ",pilha)
-                print("estado: ", atual)
             else:
                 print('Não')
                 print('atual',atual)
-                print("Pilha final: ",pilha)
-                # print("estado: ", atual)
+                print('flag',flag)
 
         path = sys.argv[1]
         if os.path.exists(path):
