@@ -75,7 +75,8 @@ while True:
 
 
         def calculo(alfabeto_entrada, alf_transicao):
-            # print('Pilha antes das operacoes',pilha)
+            print('Pilha antes das operacoes',pilha)
+            print('entrada ',alfabeto_entrada)
             try:
                 pilha.remove('#')  # remover # adicionado anteriormente
             except:
@@ -87,7 +88,7 @@ while True:
                 str.reverse()  # inverte lista para empilhar da direita para esquerda
                 for i in str:
                     pilha.append(i)
-            # print('Pilha depois das operacoes',pilha)
+            print('Pilha depois das operacoes',pilha)
 
 
         def transicoes(alfabeto_entrada, alf_transicao,simbolo_inicial,primeiro,tamanho):
@@ -113,9 +114,9 @@ while True:
                         break
                     else:
                         contador = contador + 1
-                #if contador == len(alf_transicao):  # não existe transição para o simbolo
-                    #pilha.append('#')  # so para pilhar ter tamanho >1
-                    #break;
+                if contador == len(alf_transicao):  # não existe transição para o simbolo
+                    pilha.append('#')  # so para pilhar ter tamanho >1
+                    break;
                 else:
                     contador = 0
                 if len(pilha) == 1 and pilha[-1] == 'F':  # SE TIVER 1 SO ELEMENTO na pilha e ele for F (FUNDO)

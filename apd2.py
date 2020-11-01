@@ -54,8 +54,9 @@ while True:
 
 
         def teclado():  # Recebe A Entrada vindo do teclado como: 00,01, 00011 ,etc
-            entrada = (input())+'#'
-            #entrada = entrada.replace("#", "")
+            entrada = (input())
+            entrada = entrada.replace("#", "") # lambda faz parte da palavra
+            entrada = entrada+'#'
             return entrada
 
 
@@ -93,9 +94,15 @@ while True:
         def passo2(transicoes_encontrada):
             global pilha
             for i in transicoes_encontrada:
-                if (pilha[-1] in i[2] or i[2] == '#'):  # encontrar transicao que está desempilhando topo da pilha ou desempilhando nada
-                    transicoes_encontrada.clear()  # remove todas transicoes encontradas
-                    transicoes_encontrada = transicoes_encontrada + [i]  # adiciona transicao correta
+                try:
+                    if (pilha[-1] in i[2] or i[2] == '#'):  # encontrar transicao que está desempilhando topo da pilha ou desempilhando nada
+                        transicoes_encontrada.clear()  # remove todas transicoes encontradas
+                        transicoes_encontrada = transicoes_encontrada + [i]  # adiciona transicao correta
+                except:
+                    pilha.append(i[2])
+                    if (pilha[-1] in i[2] or i[2] == '#'):  # encontrar transicao que está desempilhando topo da pilha ou desempilhando nada
+                        transicoes_encontrada.clear()  # remove todas transicoes encontradas
+                        transicoes_encontrada = transicoes_encontrada + [i]  # adiciona transicao correta
             if (len(transicoes_encontrada) > 1):  # não escolheu nenhuma transição adequada das encontradas
                 transicoes_encontrada.clear()
             return transicoes_encontrada
@@ -157,7 +164,7 @@ while True:
                         j=j+1
                     else:
                         flag=True
-                elif checkPilha() and atual in fim and not flag:
+                elif checkPilha() and atual in fim and not flag and alfabeto_entrada[j]=='#':
                     resultado=True
                     break
                 else:
