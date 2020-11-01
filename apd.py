@@ -154,6 +154,13 @@ while True:
                     else:
                         calculo(alfabeto_entrada[j], transicoes_encontrada[0])
                         atual = transicoes_encontrada[0][3]
+                        if (j == (len(
+                                alfabeto_entrada) - 1)) and not checkPilha():  # fica em loop removendo estado encontrado
+                            try:
+                                while (transicoes_encontrada[0][2] in pilha[-1]):
+                                    calculo(alfabeto_entrada[j], transicoes_encontrada[0])
+                            except:
+                                pass
                         transicoes_encontrada.clear()
                     if(j == (len(alfabeto_entrada)-1) and checkPilha() and atual in fim):
                         resultado=True
