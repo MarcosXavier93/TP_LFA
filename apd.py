@@ -113,9 +113,9 @@ while True:
                         break
                     else:
                         contador = contador + 1
-                #if contador == len(alf_transicao):  # não existe transição para o simbolo
-                    #pilha.append('#')  # so para pilhar ter tamanho >1
-                    #break;
+                if contador == len(alf_transicao):  # não existe transição para o simbolo
+                    pilha.append('#')  # so para pilhar ter tamanho >1
+                    break;
                 else:
                     contador = 0
                 if len(pilha) == 1 and pilha[-1] == 'F':  # SE TIVER 1 SO ELEMENTO na pilha e ele for F (FUNDO)
@@ -129,7 +129,7 @@ while True:
                             break
                     j = save
                     pilha.append('#')  # marcar que a pilha esta vazia
-                
+            
             
             if  atual in fim :  # confere se pilha esta vazia e se estado atual existe como estado final
                 print('Sim')
