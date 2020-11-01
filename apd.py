@@ -130,7 +130,7 @@ while True:
                             break
                     j = save
                     pilha.append('#')  # marcar que a pilha esta vazia
-                
+            
             
             if  atual in fim :  # confere se pilha esta vazia e se estado atual existe como estado final
                 print('Sim')
