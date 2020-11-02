@@ -193,5 +193,6 @@ while True:
             start()
         else:
             print('Arquivo não encontrado')
+            break
     except (EOFError, KeyboardInterrupt) as e:
         sys.exit(0)
